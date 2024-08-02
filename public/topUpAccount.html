@@ -24,7 +24,7 @@
 
   <script>
     document.getElementById('topUpForm').addEventListener('submit', async function(event) {
-      event.preventDefault(); // 阻止表单默认提交行为
+      event.preventDefault(); // prevent form submitted by default
 
       const formData = new FormData(this);
       const data = {
@@ -42,14 +42,14 @@
         });
 
         if (response.ok) {
-          // 获取当前用户信息
+          // get user info
           const userResponse = await fetch('/api/current-user');
           const userData = await userResponse.json();
 
-          // 在控制台输出用户信息
+          // Output user information in the console
           console.log('Current User Information:', userData);
           
-          // 可选：在页面上显示用户信息
+          // Optional: Display user information on the page
           alert('Top up successful! Check the console for user details.');
         } else {
           console.error('Top up failed:', response.statusText);

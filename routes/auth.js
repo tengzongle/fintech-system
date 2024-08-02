@@ -3,20 +3,20 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 const path = require('path');
 
-// 提供登录页面
+// login page
 router.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, '../public', 'login.html'));
 });
 
-// 处理登录请求
+// login req
 router.post('/login', authController.login);
 
-// 提供注册页面
+// create account page
 router.get('/register', (req, res) => {
   res.sendFile(path.join(__dirname, '../public', 'register.html'));
 });
 
-// 处理注册请求
+// create account req
 router.post('/register', authController.register);
 
 module.exports = router;

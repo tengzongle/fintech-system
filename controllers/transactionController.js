@@ -78,7 +78,7 @@ exports.topUp = async (req, res) => {
       return res.status(400).send('Invalid transaction password');
     }
 
-    user.balance = parseFloat(user.balance) + parseFloat(amount); // 在现有余额基础上增加
+    user.balance = parseFloat(user.balance) + parseFloat(amount); // adding balance
     await user.save();
 
     await Transaction.create({
@@ -114,28 +114,28 @@ exports.transfer = async (req, res) => {
       return res.status(400).json({ message: 'Receiver does not exist' });
     }
 
-    // 验证交易密码
+    // authentication digit
     const isMatch = await bcrypt.compare(transactionPassword, sender.transactionPassword);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid transaction password' });
     }
 
-    // 检查余额是否充足
+    // chekcing balance
     if (sender.balance < amount) {
       return res.status(400).json({ message: 'Insufficient balance' });
     }
 
-    // 扣减发送者余额
+    // deduct from receiver
     sender.balance -= parseFloat(amount);
     await sender.save();
 
-    // 获取接收者的当前余额，并在此基础上增加
+    // get receiver balance, add on top of balance
     const receiverBalanceBefore = parseFloat(receiver.balance);
     const receiverBalanceAfter = receiverBalanceBefore + parseFloat(amount);
     receiver.balance = receiverBalanceAfter;
-    await receiver.save(); // 确保接收者的变更被保存
+    await receiver.save(); // ensure receiver balance is added
 
-    // 记录交易
+    // transaction record
     await Transaction.create({
       senderId: senderId,
       receiverId: receiverId,

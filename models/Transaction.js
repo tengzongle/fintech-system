@@ -12,7 +12,7 @@ const Transaction = sequelize.define('Transaction', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Users', // 这里要匹配到User表
+      model: 'Users', // link to user list
       key: 'id',
     }
   },
@@ -20,7 +20,7 @@ const Transaction = sequelize.define('Transaction', {
     type: DataTypes.INTEGER,
     allowNull: true,
     references: {
-      model: 'Users', // 这里要匹配到User表
+      model: 'Users', // link to user list
       key: 'id',
     }
   },
